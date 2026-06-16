@@ -1,0 +1,719 @@
+/* Root Styling System */
+:root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: rgba(16, 22, 35, 0.65);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.16);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --color-green: #00e676;
+    --color-green-glow: rgba(0, 230, 118, 0.15);
+    --color-blue: #1d9bf0;
+    --color-blue-glow: rgba(29, 155, 240, 0.15);
+    --color-danger: #ef4444;
+    --color-warning: #f59e0b;
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Reset & Base Setup */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Ambient glow background */
+.bg-glow {
+    position: fixed;
+    top: -10%;
+    left: 20%;
+    width: 60vw;
+    height: 60vh;
+    background: radial-gradient(circle, rgba(0, 230, 118, 0.07) 0%, rgba(29, 155, 240, 0.03) 50%, rgba(0,0,0,0) 100%);
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(100px);
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1280px;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-height: 100vh;
+}
+
+/* Header Styles */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--color-green) 0%, #00b0ff 100%);
+    color: #04080f;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+}
+
+.logo-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.app-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.app-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.1rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 99px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-green);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(0, 230, 118, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
+    }
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+    background-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-refresh {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-icon svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+/* Spinner Animation */
+.spinning svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Main Grid Layout */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    width: 100%;
+}
+
+/* Panel Headers */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.panel-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Badges */
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-info {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* Stock Board List */
+.stock-list-wrapper {
+    position: relative;
+    min-height: 400px;
+}
+
+.stock-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Stock Item Card */
+.stock-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.stock-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.stock-card.selected {
+    border-color: var(--color-green);
+    background: rgba(0, 230, 118, 0.04);
+    box-shadow: 0 0 25px var(--color-green-glow);
+}
+
+/* Stock Card Details */
+.stock-info {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.stock-index {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    width: 20px;
+}
+
+.stock-ticker-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-symbol {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+.stock-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+
+.stock-price-box {
+    text-align: right;
+    padding-right: 1.5rem;
+}
+
+.stock-price {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.stock-price-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+}
+
+.stock-change-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.change-percent-badge {
+    background-color: rgba(0, 230, 118, 0.1);
+    color: var(--color-green);
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.change-absolute {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Skeletons Loader */
+.skeleton-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skeleton-card {
+    height: 78px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+    background-size: 200% 100%;
+    animation: loading-skeleton 1.5s infinite;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+}
+
+@keyframes loading-skeleton {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Twitter Composer Station */
+.composer-card {
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2rem;
+    height: calc(100vh - 200px);
+    min-height: 480px;
+    position: sticky;
+    top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.glass-panel {
+    background: var(--bg-secondary);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Empty State */
+.composer-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border: 1.5px dashed rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+}
+
+.tweet-bird-icon {
+    width: 64px;
+    height: 64px;
+    color: rgba(29, 155, 240, 0.25);
+}
+
+.tweet-bird-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.composer-empty h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.composer-empty p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    max-width: 260px;
+}
+
+/* Float Animation */
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Active State */
+.composer-active {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.composer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.selected-ticker-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.badge-active-ticker {
+    background-color: var(--color-green);
+    color: #04080f;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
+}
+
+.selected-name {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-text:hover {
+    color: var(--color-danger);
+}
+
+.composer-body {
+    flex-grow: 1;
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.tweet-input {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+    resize: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    outline: none;
+}
+
+.tweet-input::placeholder {
+    color: var(--text-muted);
+}
+
+.composer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Progress circular ring */
+.character-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring__circle {
+    transition: stroke-dashoffset 0.15s;
+    transform-origin: 50% 50%;
+}
+
+.char-count-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 24px;
+    text-align: right;
+}
+
+.char-warning {
+    color: var(--color-warning);
+}
+
+.char-error {
+    color: var(--color-danger);
+}
+
+.btn-tweet {
+    background-color: var(--color-blue);
+    color: #ffffff;
+    box-shadow: 0 4px 15px var(--color-blue-glow);
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+}
+
+.btn-tweet:hover {
+    background-color: #26a7f5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 155, 240, 0.35);
+}
+
+.btn-tweet.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+.tweet-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Screen Readers Only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Error Container */
+.error-container {
+    background: rgba(239, 68, 68, 0.07);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.error-icon {
+    font-size: 1.5rem;
+}
+
+.error-text h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #ffffff;
+}
+
+.error-text p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .composer-card {
+        height: auto;
+        min-height: 320px;
+        position: static;
+        margin-top: 1rem;
+    }
+    
+    .composer-body {
+        min-height: 120px;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .app-container {
+        padding: 1.5rem 1rem;
+    }
+    
+    .app-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.25rem;
+        padding: 1.25rem;
+    }
+    
+    .header-actions {
+        justify-content: space-between;
+    }
+    
+    .stock-card {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 1.25rem;
+    }
+    
+    .stock-info {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        padding-bottom: 0.75rem;
+    }
+    
+    .stock-price-box {
+        text-align: left;
+        padding-right: 0;
+        margin-left: 32px;
+    }
+    
+    .stock-change-box {
+        align-items: flex-start;
+        margin-left: 32px;
+    }
+}

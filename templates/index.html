@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BullRun Trends | Top 20 Yahoo Finance Stock Gainers</title>
+    <meta name="description" content="View the top 20 performing stocks on Yahoo Finance, track their prices and percentage increases, and tweet about selected tickers instantly.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 17L9 11L13 15L21 7M21 7H16M21 7V12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="app-title" id="app-main-title">BullRun Trends</h1>
+                    <p class="app-subtitle">Real-time Top Gainers from Yahoo Finance</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">Yahoo Finance Live</span>
+                </div>
+                <button id="btn-refresh" class="btn btn-primary btn-refresh" aria-label="Refresh stock list">
+                    <span class="btn-icon refresh-icon" id="spinner-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.5 2V6M21.5 6H17.5M21.5 6C20.15 4.42 18.2 3.3 16 3C11.58 2.41 7.55 5.38 6.96 9.8C6.37 14.22 9.34 18.25 13.76 18.84C17.2 19.3 20.48 17.5 21.6 14.4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    Refresh Data
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Left Panel: Stock Board -->
+            <section class="board-panel" aria-labelledby="stock-board-title">
+                <div class="panel-header">
+                    <h2 class="panel-title" id="stock-board-title">Market Leaders</h2>
+                    <span class="badge badge-info" id="ticker-count">Top 20 Gainers</span>
+                </div>
+                
+                <!-- Error Message Container -->
+                <div id="error-message" class="error-container hidden">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-text">
+                        <h3>Connection Failed</h3>
+                        <p id="error-description">We couldn't retrieve the latest data. Please click refresh to try again.</p>
+                    </div>
+                </div>
+
+                <!-- Stock Cards List Wrapper -->
+                <div class="stock-list-wrapper">
+                    <!-- Loading Skeleton Overlay -->
+                    <div id="skeleton-loader" class="skeleton-list">
+                        <!-- Repeated Skeletons for Loading State -->
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                    </div>
+                    
+                    <div id="stock-list" class="stock-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Twitter Station -->
+            <section class="composer-panel" aria-labelledby="composer-title">
+                <div class="panel-header">
+                    <h2 class="panel-title" id="composer-title">Twitter Station</h2>
+                </div>
+                
+                <div class="composer-card glass-panel">
+                    <!-- Unselected State -->
+                    <div id="composer-empty-state" class="composer-empty">
+                        <div class="tweet-bird-icon animate-float">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </div>
+                        <h3>Select a stock to tweet</h3>
+                        <p>Click on any stock ticker from the market board to compose a personalized tweet about its performance.</p>
+                    </div>
+
+                    <!-- Selected State -->
+                    <div id="composer-active-state" class="composer-active hidden">
+                        <div class="composer-meta">
+                            <div class="selected-ticker-info">
+                                <span class="badge-active-ticker" id="composer-ticker-symbol">INOD</span>
+                                <span class="selected-name" id="composer-ticker-name">Innodata Inc.</span>
+                            </div>
+                            <button id="btn-deselect" class="btn-text" aria-label="Clear selection">Clear</button>
+                        </div>
+                        
+                        <div class="composer-body">
+                            <label for="tweet-textarea" class="sr-only">Tweet content</label>
+                            <textarea id="tweet-textarea" class="tweet-input" placeholder="What's happening?"></textarea>
+                        </div>
+
+                        <div class="composer-footer">
+                            <div class="character-counter">
+                                <svg class="progress-ring" width="36" height="36">
+                                    <circle class="progress-ring__circle-bg" stroke="rgba(255, 255, 255, 0.07)" stroke-width="3" fill="transparent" r="14" cx="18" cy="18"/>
+                                    <circle class="progress-ring__circle" id="char-progress" stroke="#00e676" stroke-width="3" fill="transparent" r="14" cx="18" cy="18"/>
+                                </svg>
+                                <span id="char-count" class="char-count-text">280</span>
+                            </div>
+                            
+                            <a id="btn-tweet" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-tweet">
+                                <span class="tweet-icon">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                                    </svg>
+                                </span>
+                                Post on X
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
